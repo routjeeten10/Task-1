@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Text Editor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196F3">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Collaborative Text Editor</h1>
+            <div id="connection-status" class="online">
+                <span class="status-icon"></span>
+                <span class="status-text">Online</span>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="editor-container">
+                <div class="toolbar">
+                    <button id="bold-btn" class="format-btn" title="Bold">
+                        <span class="material-icons">format_bold</span>
+                    </button>
+                    <button id="italic-btn" class="format-btn" title="Italic">
+                        <span class="material-icons">format_italic</span>
+                    </button>
+                    <button id="underline-btn" class="format-btn" title="Underline">
+                        <span class="material-icons">format_underlined</span>
+                    </button>
+                    <div class="toolbar-separator"></div>
+                    <button id="undo-btn" class="format-btn" title="Undo">
+                        <span class="material-icons">undo</span>
+                    </button>
+                    <button id="redo-btn" class="format-btn" title="Redo">
+                        <span class="material-icons">redo</span>
+                    </button>
+                </div>
+                <div id="editor" contenteditable="true" class="editor" placeholder="Start typing here..."></div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="users-panel">
+                    <h3>
+                        <span class="material-icons">group</span>
+                        Active Users
+                    </h3>
+                    <ul id="users-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="username-modal" class="modal">
+        <div class="modal-content">
+            <h2>
+                <span class="material-icons">person</span>
+                Welcome to Collaborative Editor
+            </h2>
+            <p class="modal-description">Please enter your name to start collaborating</p>
+            <div class="input-group">
+                <span class="material-icons">account_circle</span>
+                <input type="text" id="username-input" placeholder="Your name" maxlength="20">
+            </div>
+            <button id="username-submit">
+                <span class="material-icons">login</span>
+                Join Session
+            </button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
